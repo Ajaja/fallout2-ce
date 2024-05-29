@@ -91,15 +91,10 @@ jobs:
             --config Release \
             # EOL
 
-      - name: Pack
-        run: |
-          cd build/Release
-          7z a fallout2-ce-windows-${{ matrix.arch }}.zip fallout2-ce.exe
-
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: fallout2-ce-windows-${{ matrix.arch }}.zip
-          path: build/Release/fallout2-ce-windows-${{ matrix.arch }}.zip
+          path: build/Release/fallout2-ce.exe
           retention-days: 1
           
