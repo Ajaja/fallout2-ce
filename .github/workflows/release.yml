@@ -45,14 +45,12 @@ jobs:
           cd os/android
           ./gradlew assembleRelease
 
-      - name: Upload
-        run: |
-          cd os/android/app/build/outputs/apk/release
-          cp app-release.apk fallout2-ce-android.apk
-          gh release upload ${{ github.event.release.tag_name }} fallout2-ce-android.apk
-          rm fallout2-ce-android.apk
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fallout2-ce-android.apk
+          path: os/android/app/build/outputs/apk/release/app-release.apk
+          retention-days: 1
 
   windows:
     name: Windows (${{ matrix.arch }})
@@ -93,11 +91,15 @@ jobs:
             --config RelWithDebInfo \
             # EOL
 
-      - name: Upload
+      - name: Pack
         run: |
           cd build/RelWithDebInfo
           7z a fallout2-ce-windows-${{ matrix.arch }}.zip fallout2-ce.exe
-          gh release upload ${{ github.event.release.tag_name }} fallout2-ce-windows-${{ matrix.arch }}.zip
-          rm fallout2-ce-windows-${{ matrix.arch }}.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fallout2-ce-windows-${{ matrix.arch }}.zip
+          path: build/RelWithDebInfo/fallout2-ce-windows-${{ matrix.arch }}.zip
+          retention-days: 1
+          
