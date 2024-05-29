@@ -48,8 +48,8 @@ jobs:
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: fallout2-ce-android.apk
-          path: os/android/app/build/outputs/apk/release/app-release.apk
+          name: fallout2-ce-android.zip
+          path: os/android/app/build/outputs/apk/
           retention-days: 1
 
   windows:
