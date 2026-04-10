@@ -55,16 +55,7 @@ jobs:
   windows:
     name: Windows (${{ matrix.arch }})
 
-    runs-on: windows-2019
-
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - arch: x86
-            generator-platform: Win32
-          - arch: x64
-            generator-platform: x64
+    runs-on: windows-latest
 
     steps:
       - name: Clone
@@ -74,26 +65,25 @@ jobs:
         uses: actions/cache@v4
         with:
           path: build
-          key: windows-${{ matrix.arch }}-cmake-v1
+          key: windows-x64-cmake-v1
 
       - name: Configure
         run: |
           cmake \
             -B build \
-            -G "Visual Studio 16 2019" \
-            -A ${{ matrix.generator-platform }} \
+            -A x64 \
             # EOL
 
       - name: Build
         run: |
           cmake \
             --build build \
-            --config RelWithDebInfo \
+            --config Release \
             # EOL
 
       - name: Upload Release Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: fallout2ce-win-${{ matrix.arch }}
-          path: build/RelWithDebInfo/
+          name: fallout2ce-win-x64
+          path: build/Release/
           if-no-files-found: error
