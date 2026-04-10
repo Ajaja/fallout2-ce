@@ -53,7 +53,7 @@ jobs:
           if-no-files-found: error
       
   windows:
-    name: Windows (${{ matrix.arch }})
+    name: Windows x64
 
     runs-on: windows-latest
 
